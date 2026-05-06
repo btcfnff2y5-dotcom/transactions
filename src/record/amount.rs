@@ -5,7 +5,7 @@ use std::ops::Deref;
 const PRECISION: u32 = 4;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub struct Amount(pub Decimal);
+pub(crate) struct Amount(pub(crate) Decimal);
 
 impl<'de> Deserialize<'de> for Amount {
     fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
