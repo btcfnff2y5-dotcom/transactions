@@ -2,7 +2,7 @@ use crate::db::{Chargeback, Deposit, Dispute, Resolve, StateStore, Withdrawal};
 use crate::record::Transaction;
 
 use csv_async::{AsyncReaderBuilder, Trim};
-use futures::stream::{Stream, StreamExt, TryStreamExt};
+use futures::stream::{Stream, TryStreamExt};
 use std::convert::TryFrom;
 use tokio::io::AsyncRead;
 
@@ -16,10 +16,7 @@ where
         .trim(Trim::All)
         .create_deserializer(input)
         .into_deserialize::<Transaction>()
-        .map(|result| match result {
-            Ok(raw) => Transaction::try_from(raw).map_err(anyhow::Error::msg),
-            Err(e) => Err(anyhow::Error::from(e)),
-        })
+        .map_err(anyhow::Error::from)
 }
 
 pub(crate) async fn run_engine<S: StateStore>(
@@ -47,6 +44,7 @@ mod tests {
     use crate::db::ClientReport;
     use anyhow::Result;
     use async_trait::async_trait;
+    use futures::StreamExt;
     use futures::stream::BoxStream;
     use std::sync::Arc;
     use tokio::sync::Mutex;
