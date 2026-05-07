@@ -41,6 +41,7 @@ pub(crate) struct RocksStore {
     db: DB,
 }
 
+#[allow(dead_code)]
 impl RocksStore {
     pub async fn new(path: PathBuf) -> Result<Self> {
         let db_opts = {

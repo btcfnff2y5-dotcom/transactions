@@ -13,6 +13,7 @@ futures = "0.3.32"
 rocksdb = "0.24.0"
 rust_decimal = { version = "1.41.0", features = ["serde-with-str"] }
 serde = { version = "1.0.228", features = ["derive"] }
+sled = "0.34.7"
 tokio = { version = "1.52.2", features = ["fs", "io-std", "io-util", "macros", "rt-multi-thread"] }
 tokio-stream = "0.1.18"
 

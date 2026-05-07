@@ -1,4 +1,5 @@
 pub(crate) mod rocks;
+pub(crate) mod sled;
 
 use anyhow::Result;
 use async_trait::async_trait;

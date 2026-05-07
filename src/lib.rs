@@ -5,7 +5,8 @@ mod record;
 
 use anyhow::{Context, Result};
 use db::StateStore;
-use db::rocks::RocksStore;
+//use db::rocks::RocksStore;
+use db::sled::SledStore;
 use futures::StreamExt;
 use process::{process_csv, run_engine};
 use std::path::PathBuf;
@@ -41,19 +42,22 @@ impl TransactArgs {
 pub async fn orchestrate_transactions<R, W>(
     input: R,
     mut output: W,
-    db_path: PathBuf,
+    _db_path: PathBuf,
 ) -> anyhow::Result<()>
 where
     R: tokio::io::AsyncRead + Unpin + Send,
     W: tokio::io::AsyncWrite + Unpin + Send,
 {
-    if db_path.exists() {
+    // was asked to remove all file backed db by interviewr due to container restraints
+    /* if db_path.exists() {
         tokio::fs::remove_dir_all(&db_path)
             .await
             .with_context(|| format!("Failed to clear DB at {:?}", db_path))?;
     }
-
     let store = RocksStore::new(db_path).await?;
+    */
+
+    let store = SledStore::new(None).await?;
     let stream = process_csv(input).await;
     run_engine(&store, Box::pin(stream)).await?;
 

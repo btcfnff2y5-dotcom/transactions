@@ -1,5 +1,9 @@
 Program to run a sample feeds of transactions
 
+# Last minute switch to Sled
+
+Was requested to use in-memory db. I tried using RocksDb with in-memory, with no compaction. However it still needs a "valid path". To be safe, I switched to SLED. I used Google AI as mentioned below in web browser to quickly generate me a skeleton.
+
 # Transparency
 
 I use AI at work using codex. I have no such feature on my personal dev environment, I am wary of using other AI models unless I have used them in production.
